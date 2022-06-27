@@ -1,4 +1,6 @@
-docker-compose.yml
+/docker-compose.yml
 code
-ssh
+**/ssh/*rsa*
+/ssh
 target
+*test*.*
