@@ -1,6 +1,6 @@
 version: '3'
 services:
-  webapp:
+  app:
     image: funnyzak/git-job:0.1.0
     privileged: true
     container_name: gitjob
@@ -15,16 +15,21 @@ services:
       - GIT_BRANCH=main
       - GIT_EMAIL=silenceace@gmail.com
       - GIT_NAME=Leon
-      - STARTUP_COMMANDS=echo "start time:$(date)"
-      - AFTER_PULL_COMMANDS=echo "after pull time:$(date)"
-      - BEFORE_PULL_COMMANDS=echo "before pull time:$(date)"
-      - AFTER_PACKAGE_COMMANDS=echo "elapsed time:$(cat /tmp/ELAPSED_TIME_LABEL)"
+      - STARTUP_COMMANDS=echo start time:$$(date)
+      - AFTER_PULL_COMMANDS=echo after pull time:$$(date)
+      - BEFORE_PULL_COMMANDS=echo before pull time:$$(date)
+      - AFTER_PACKAGE_COMMANDS=echo elapsed time:$$(cat /tmp/ELAPSED_TIME_LABEL)
       - NOTIFY_ACTION_LIST=StartUp|BeforePull|AfterPull|AfterPackage
       - NOTIFY_ACTION_LABEL=已启动|源代码开始拉取中..|源代码已拉取最新,开始打包..|部署已完成
       - APP_NAME=GitJobDockerHook
-      - NOTIFY_URL_LIST=https://request.worktile.com/Y8b3dxhDT
-      - TELEGRAM_BOT_TOKEN=123456789:SDFW33-CbovPM2TeHFCiPUDTLy1uYmN04I###9865678987
-      - IFTTT_HOOK_URL_LIST=https://maker.ifttt.com/trigger/push_event/with/key/deQYskdfjk3HGiqh-QUp
+
+      - INSTALL_DEPS_COMMAND=echo install deps time:$$(date)
+      - BUILD_COMMAND=mkdir target && zip -r ./target/release.zip ./*
+      - OUTPUT_DIRECTORY=./target
+
+      - NOTIFY_URL_LIST=https://request.worktile.com/Y8b3DT
+      - TELEGRAM_BOT_TOKEN=123456789:SDFW33-CbovPM2TeHFCiPUDTLy1uY
+      - IFTTT_HOOK_URL_LIST=https://maker.ifttt.com/trigger/push_event/with/key/deQdfjk3HGiqh-QUp
       - DINGTALK_TOKEN_LIST=hellslsdfkjlsdjf|ksljdflkjsdflsdf
       - QYWX_BOT_KEY_LIST=skljdflsjerowier|kjsdlkfdsf
       - JISHIDA_TOKEN_LIST=lksjdfkljewr|klsjdfklsdf
