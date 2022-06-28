@@ -27,6 +27,10 @@ services:
       - BUILD_COMMAND=mkdir target && zip -r ./target/release.zip ./*
       - OUTPUT_DIRECTORY=./target
 
+      - ALIYUN_OSS_ENDPOINT=oss-cn-beijing-internal.aliyuncs.com
+      - ALIYUN_OSS_AK_ID=123456789
+      - ALIYUN_OSS_AK_SID=sxgh645etrdgfjh4635wer
+
       - NOTIFY_URL_LIST=https://request.worktile.com/Y8b3DT
       - TELEGRAM_BOT_TOKEN=123456789:SDFW33-CbovPM2TeHFCiPUDTLy1uY
       - IFTTT_HOOK_URL_LIST=https://maker.ifttt.com/trigger/push_event/with/key/deQdfjk3HGiqh-QUp
@@ -41,3 +45,4 @@ services:
       - ./code:/app/code
       - ./ssh:/root/.ssh
       - ./scripts/gitjob_after_pull_run.sh:/custom_scripts/after_pull/3.sh
+      - ./scripts/gitjob_afterpackage.sh:/custom_scripts/after_package/10.sh 

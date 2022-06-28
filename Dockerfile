@@ -24,9 +24,6 @@ RUN mkdir -p /app/hook && mkdir -p /app/code && mkdir -p /var/log/webhook
 COPY conf/hooks.json /app/hook/hooks.json
 COPY scripts/hook.sh /app/hook/hook.sh
 
-# copy nginx conf
-COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
-
 # Copy our Scripts
 COPY scripts/start.sh /usr/bin/start.sh
 COPY scripts/utils.sh /app/scripts/utils.sh
@@ -48,13 +45,19 @@ ADD custom_scripts /custom_scripts
 RUN chmod +x -R /custom_scripts
 
 RUN chmod +x -R /app/code
-WORKDIR /app/code
+
+# run nginx with root
+RUN sed -i 's/^user [a-z0-9\-]\+/user root/' /etc/nginx/nginx.conf
+# http proxy 9000 80 
+COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
 
 # create final target folder
 RUN mkdir -p /app/target/
 
 # Expose Webhook、nginx port
 EXPOSE 80 9000
+
+WORKDIR /app/code
 
 # run start script
 ENTRYPOINT ["/bin/bash", "/usr/bin/start.sh"]
