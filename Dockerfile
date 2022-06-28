@@ -24,6 +24,9 @@ RUN mkdir -p /app/hook && mkdir -p /app/code && mkdir -p /var/log/webhook
 COPY conf/hooks.json /app/hook/hooks.json
 COPY scripts/hook.sh /app/hook/hook.sh
 
+# copy nginx conf
+COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
+
 # Copy our Scripts
 COPY scripts/start.sh /usr/bin/start.sh
 COPY scripts/utils.sh /app/scripts/utils.sh
@@ -47,8 +50,11 @@ RUN chmod +x -R /custom_scripts
 RUN chmod +x -R /app/code
 WORKDIR /app/code
 
-# Expose Webhook port
-EXPOSE 9000
+# create final target folder
+RUN mkdir -p /app/target/
+
+# Expose Webhook、nginx port
+EXPOSE 80 9000
 
 # run start script
 ENTRYPOINT ["/bin/bash", "/usr/bin/start.sh"]

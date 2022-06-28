@@ -12,7 +12,9 @@ This image is based on Alpine Linux image, which is a 439MB image.
 
 Docker Pull Command: `docker pull funnyzak/git-job`
 
-Webhook Url: [http://hostname:9000/hooks/git-webhook?token=HOOK_TOKEN](#)
+Visit Url: [http://hostname:80/](#)
+
+Webhook Url: [http://hostname:9000|80/hooks/git-webhook?token=HOOK_TOKEN](#)
 
 ---
 
@@ -85,6 +87,7 @@ The following flags are a list of all the currently supported options that can b
 
 * **/app/code** : git source code dir. docker work dir.
 * **/root/.ssh** :  ssh key folder.
+* **/app/target** :  nginx 80 html folder.
 * **/custom_scripts/on_startup** :  which the scripts are executed at startup, traversing all the scripts and executing them sequentially
 * **/custom_scripts/before_pull** :  which the scripts are executed at before pull
 * **/custom_scripts/after_pull** :  which the scripts are executed at after pull
