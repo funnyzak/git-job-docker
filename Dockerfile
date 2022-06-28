@@ -1,4 +1,6 @@
-FROM funnyzak/java-nodejs-python-go-etc:1.0.0
+FROM funnyzak/java-nodejs-python-go-etc:1.1.0
+
+LABEL maintainer="leon (github.com/funnyzak)"
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -8,7 +10,7 @@ LABEL org.label-schema.vendor="yycc<silenceace@gmail.com>" \
     org.label-schema.build-date="${BUILD_DATE}" \
     org.label-schema.description="Pull your project git code into a data volume and trigger run event via Webhook." \
     org.label-schema.url="https://yycc.me" \
-    org.label-schema.schema-version="1.0"	\
+    org.label-schema.schema-version="0.1.0"	\
     org.label-schema.vcs-type="Git" \
     org.label-schema.vcs-ref="${VCS_REF}" \
     org.label-schema.vcs-url="https://github.com/funnyzak/git-job-docker" 
