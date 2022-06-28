@@ -5,7 +5,7 @@ Pull your project git code into a data volume and trigger event via Webhook.
 [![Docker Stars](https://img.shields.io/docker/stars/funnyzak/git-job.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-job/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/funnyzak/git-job.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-job/)
 
-This image is based on Alpine Linux image, which is a 439MB image.
+This image is based on Debian Linux image, which is a 928MB image.
 
 
 [Docker hub image: funnyzak/git-job](https://hub.docker.com/r/funnyzak/git-job)
