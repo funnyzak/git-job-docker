@@ -2,6 +2,7 @@
 
 Pull your project git code into a data volume and trigger event via Webhook.
 
+[![release](https://github.com/funnyzak/git-job-docker/actions/workflows/release.yml/badge.svg)](https://github.com/funnyzak/git-job/actions/workflows/release.yml)
 [![Docker Stars](https://img.shields.io/docker/stars/funnyzak/git-job.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-job/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/funnyzak/git-job.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-job/)
 

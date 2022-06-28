@@ -1,4 +1,4 @@
-FROM funnyzak/java-nodejs-python-go-etc:1.1.0
+FROM funnyzak/java-nodejs-python-go-etc:1.2.0
 
 LABEL maintainer="leon (github.com/funnyzak)"
 
