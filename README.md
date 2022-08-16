@@ -159,6 +159,7 @@ services:
       - GIT_BRANCH=master
       - GIT_EMAIL=youremail
       - GIT_NAME=yourname
+      # - STARTUP_COMMANDS=nrm use cnpm && n 16.16.0 && yarn
       - STARTUP_COMMANDS=echo "STARTUP_COMMANDS helllo"
       - AFTER_PULL_COMMANDS=echo "AFTER_PULL_COMMANDS hello"
       - BEFORE_PULL_COMMANDS=echo "AFTER_PULL_COMMANDS”
