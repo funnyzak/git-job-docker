@@ -17,6 +17,8 @@ Visit Url: [http://hostname:80/](#)
 
 Webhook Url: [http://hostname:9000|80/hooks/git-webhook?token=HOOK_TOKEN](#)
 
+Base Image: [java-nodejs-python-go-etc-docker](https://github.com/funnyzak/java-nodejs-python-go-etc-docker)
+
 ---
 
 ## Main Modules
