@@ -1,4 +1,4 @@
-FROM funnyzak/java-nodejs-python-go-etc:1.3.1
+FROM funnyzak/java-nodejs-python-go-etc:1.3.2
 
 LABEL maintainer="leon (github.com/funnyzak)"
 
@@ -10,12 +10,15 @@ LABEL org.label-schema.vendor="yycc<silenceace@gmail.com>" \
     org.label-schema.build-date="${BUILD_DATE}" \
     org.label-schema.description="Pull your project git code into a data volume and trigger run event via Webhook." \
     org.label-schema.url="https://yycc.me" \
-    org.label-schema.schema-version="1.1.0"	\
+    org.label-schema.schema-version="1.1.1"	\
     org.label-schema.vcs-type="Git" \
     org.label-schema.vcs-ref="${VCS_REF}" \
     org.label-schema.vcs-url="https://github.com/funnyzak/git-job-docker" 
 
 ENV LANG=C.UTF-8
+
+# install pushoo-cli
+RUN npm install -g pushoo-cli
 
 # Create Dir
 RUN mkdir -p /app/hook && mkdir -p /app/code && mkdir -p /var/log/webhook
