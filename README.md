@@ -21,6 +21,8 @@ Attention: the nginx service is enabled by default, and the proxy ports are 80 a
 - `http://hostname:80/hooks/git-webhook?token=HOOK_TOKEN`
 - `http://hostname:9000/hooks/git-webhook?token=HOOK_TOKEN`
 
+Attention: Current version is not compatible old version, please use tag `1.1.0` if you want to use old version.
+
 ## Environment
 
 The following environment variables are used to configure the container:
