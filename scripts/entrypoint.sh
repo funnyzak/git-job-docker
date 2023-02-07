@@ -69,14 +69,11 @@ sed -i "s|{hook_branch}|${GIT_BRANCH}|g" ${HOOK_DIR}/githooks.json
 sed -i "s|/app/code|${CODE_DIR}|g" ${HOOK_DIR}/githooks.json
 log "Set hook config to ${HOOK_DIR}/githooks.json done. hook token: ${HOOK_TOKEN}, branch: ${GIT_BRANCH}, code dir: ${CODE_DIR}.\nConfig content:\n `cat ${HOOK_DIR}/githooks.json`"
 
-echo $HOOK_CONF >${HOOK_DIR}/githooks.json
-log "Set hook config to ${HOOK_DIR}/githooks.json done. hook token: ${HOOK_TOKEN}, branch: ${GIT_BRANCH}"
-
 source /app/scripts/hook.sh &
 
 # nginx
 # replace /etc/nginx/sites-available/default /app/target to ${TARGET_DIR}
-sed -i "s|/app/target|${TARGET_DIR}|g" /etc/nginx/sites-available/default
+sed -i "s|/app/target|${TARGET_DIR}|g" /etc/nginx/conf.d/default.conf
 nginx -g "daemon off;" &
 log "Start nginx done."
 

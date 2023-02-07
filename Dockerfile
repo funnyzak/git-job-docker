@@ -59,7 +59,7 @@ RUN chmod +x -R /custom_scripts
 # run nginx with root
 RUN sed -i 's/^user [a-z0-9\-]\+/user root/' /etc/nginx/nginx.conf
 # http proxy 9000 80 
-COPY conf/nginx_default.conf /etc/nginx/sites-available/default
+COPY conf/nginx_default.conf /etc/nginx/conf.d/default.conf
 
 # Expose webhook and nginx port
 EXPOSE 80 9000
