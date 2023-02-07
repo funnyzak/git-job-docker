@@ -46,7 +46,7 @@ ENV HOOK_LOG_DIR /var/log/webhook
 RUN npm install -g pushoo-cli
 
 # Create operation folders
-RUN mkdir -p ${CODE_DIR} && mkdir -p ${TARGET_DIR} && mkdir -p ${HOOK_DIR} && mkdir -p ${HOOK_LOG_DIR
+RUN mkdir -p ${CODE_DIR} && mkdir -p ${TARGET_DIR} && mkdir -p ${HOOK_DIR} && mkdir -p ${HOOK_LOG_DIR}
 
 # Copy hook rule and hook script
 COPY conf/hooks.json /app/hook/hooks.json
