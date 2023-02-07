@@ -35,30 +35,37 @@ run_command() {
   fi
 
   log "Execute $2 command: $1"
-  $1 1>/dev/null 2>tmp_error_log
+  eval "$1" 1>/app/tmp/tmp_output_log 2>/app/tmp/tmp_error_log
   if [ $? -ne 0 ]; then
-    log "Execute $1 command: $1 failed. Please check your command. Error log: $(cat tmp_error_log)" "error" "true"
+    log "Execute $1 command: $1 failed. Please check your command. Error log: $(cat /app/tmp/tmp_error_log)" "error" "true"
+  else
+    log "Execute $2 command: $1 success. Output log: $(cat /app/tmp/tmp_output_log)"
   fi
 }
 
 # $1 folder path
 # $2 shell type
 run_folder_scripts() {
-  if [ -n "$(ls -A $1/* | grep '.sh' 2>/dev/null)" ]; then
+  if [ -n "$(ls -A $1/ -A | grep '.sh' 2>/dev/null)" ]; then
     for file in $1/*; do
-      log "Run $2 shell file: $file"
-      "$file" 1>/dev/null 2>tmp_error_log
-      if [ $? -ne 0 ]; then
-        log "Run $2 shell file: $file failed. Please check your $2 shell. Error log: $(cat tmp_error_log)" "error" "true"
+      if [ ! -d "$file" ]; then
+        log "Run $2 shell file: $file"
+        $file 1>/app/tmp/tmp_output_log 2>/app/tmp/tmp_error_log
+        if [ $? -ne 0 ]; then
+          log "Run $2 shell file: $file failed. Please check your $2 shell. Error log: $(cat /app/tmp/tmp_error_log)" "error" "true"
+        else
+          log "Run $2 shell file: $file success. Output log: $(cat /app/tmp/tmp_output_log)"
+        fi
       fi
     done
+    log "Run $2 shell files done."
   else 
     log "No $2 shell file found. Skiped."
   fi
 }
 
 print_environment() {
-  log "Current running environment: \nGit name: ${GIT_USER_NAME}\nGit email: ${GIT_USER_EMAIL}\nGit Repo: ${GIT_REPO_URL}\nGit Branch: ${GIT_BRANCH}\nCode Dir: ${CODE_DIR}\nTarget Dir: ${TARGET_DIR}\nHook Dir: ${HOOK_DIR}\nHook log dir: ${HOOK_LOG_DIR}\nHook Token: ${HOOK_TOKEN}\nUse Hook: ${USE_HOOK}\nStartup Command: ${STARTUP_COMMAND}\nBefore Pull Command: ${BEFORE_PULL_COMMAND}\nAfter Pull Command: ${AFTER_PULL_COMMAND}\nServer name: ${SERVER_NAME}\nPushoo push platforms: ${PUSHOO_PUSH_PLATFORMS}\nPushoo push tokens: ${PUSHOO_PUSH_TOKENS}"
+  log "Environment: \nGit name: ${GIT_USER_NAME}\nGit email: ${GIT_USER_EMAIL}\nGit Repo: ${GIT_REPO_URL}\nGit Branch: ${GIT_BRANCH}\nCode Dir: ${CODE_DIR}\nTarget Dir: ${TARGET_DIR}\nHook Dir: ${HOOK_DIR}\nHook log dir: ${HOOK_LOG_DIR}\nHook Token: ${HOOK_TOKEN}\nUse Hook: ${USE_HOOK}\nStartup Command: ${STARTUP_COMMAND}\nBefore Pull Command: ${BEFORE_PULL_COMMAND}\nAfter Pull Command: ${AFTER_PULL_COMMAND}\nServer name: ${SERVER_NAME}\nPushoo push platforms: ${PUSHOO_PUSH_PLATFORMS}\nPushoo push tokens: ${PUSHOO_PUSH_TOKENS}"
 }
 
 # checks if branch has something pending

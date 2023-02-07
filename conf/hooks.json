@@ -25,7 +25,7 @@
         {
           "match": {
             "type": "value",
-            "value": "refs/heads/${hook_branch}",
+            "value": "refs/heads/{hook_branch}",
             "parameter": {
               "source": "payload",
               "name": "ref"
@@ -35,7 +35,7 @@
         {
           "match": {
             "type": "value",
-            "value": "${hook_token}",
+            "value": "{hook_token}",
             "parameter": {
               "source": "url",
               "name": "token"

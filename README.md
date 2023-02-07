@@ -122,7 +122,7 @@ Follow the example below to use docker to start the container, you should acdjus
 docker run -d -t -i --name git-job --restart on-failure:5 --privileged=true \
 -e TZ=Asia/Shanghai \
 -e LANG=C.UTF-8 \
--e USE_HOOK=1 \
+-e USE_HOOK=true \
 -e GIT_USER_NAME=Leon \
 -e GIT_USER_EMAIL=silenceace@gmail.com \
 -e GIT_REPO_URL=git@github.com:funnyzak/git-job.git \
@@ -148,7 +148,7 @@ services:
       - TZ=Asia/Shanghai
       - LANG=C.UTF-8
       # repo config
-      - USE_HOOK=1
+      - USE_HOOK=true
       - GIT_USER_NAME=Leon
       - GIT_USER_EMAIL=silenceace@gmail.com
       - HOOK_TOKEN=XqMWRndVuxXQDNzbE9Z
@@ -159,7 +159,7 @@ services:
       - BEFORE_PULL_COMMANDS=echo before pull time:$$(date)
       - AFTER_PULL_COMMANDS=echo after pull time:$$(date)
       # pushoo 
-      - SERVER_NAME=app-db-backup
+      - SERVER_NAME=demo server
       - PUSHOO_PUSH_PLATFORMS=dingtalk,bark
       - PUSHOO_PUSH_TOKENS=dingtalk:xxxx,bark:xxxx
       # custom environment for build
@@ -201,7 +201,7 @@ services:
       - GIT_REPO_URL=git@github.com:funnyzak/git-job.git
       - GIT_BRANCH=main
       # pushoo 
-      - SERVER_NAME=app-db-backup
+      - SERVER_NAME=demo server
       - PUSHOO_PUSH_PLATFORMS=dingtalk,bark
       - PUSHOO_PUSH_TOKENS=dingtalk:xxxx,bark:xxxx
       # custom environment for build

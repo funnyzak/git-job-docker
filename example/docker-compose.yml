@@ -10,7 +10,7 @@ services:
       - TZ=Asia/Shanghai
       - LANG=C.UTF-8
       # repo config
-      - USE_HOOK=1
+      - USE_HOOK=true
       - GIT_USER_NAME=Leon
       - GIT_USER_EMAIL=silenceace@gmail.com
       - HOOK_TOKEN=XqMWRndVuxXQDNzbE9Z
@@ -21,7 +21,7 @@ services:
       - BEFORE_PULL_COMMANDS=echo before pull time:$$(date)
       - AFTER_PULL_COMMANDS=echo after pull time:$$(date)
       # pushoo 
-      - SERVER_NAME=app-db-backup
+      - SERVER_NAME=demo server
       - PUSHOO_PUSH_PLATFORMS=dingtalk,bark
       - PUSHOO_PUSH_TOKENS=dingtalk:xxxx,bark:xxxx
       # custom environment for build

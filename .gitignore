@@ -2,4 +2,4 @@
 code
 /ssh
 target
-*test*.*
+**/test

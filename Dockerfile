@@ -1,4 +1,4 @@
-FROM funnyzak/java-nodejs-python-go-etc:latest
+FROM funnyzak/java-nodejs-python-go-etc:1.5.0
 
 MAINTAINER Leon (silenceace@gmail.com)
 
@@ -32,7 +32,7 @@ ENV GIT_USER_NAME=funnyzak
 ENV GIT_USER_EMAIL=
 ENV GIT_REPO_URL=
 ENV GIT_BRANCH=
-ENV USE_HOOK=1
+ENV USE_HOOK=true
 ENV HOOK_TOKEN=
 
 ENV SERVER_NAME=gitjob
@@ -42,14 +42,11 @@ ENV CODE_DIR /app/code
 ENV HOOK_DIR /app/hook
 ENV HOOK_LOG_DIR /var/log/webhook
 
-# Install pushoo-cli
-RUN npm install -g pushoo-cli
-
 # Create operation folders
-RUN mkdir -p ${CODE_DIR} && mkdir -p ${TARGET_DIR} && mkdir -p ${HOOK_DIR} && mkdir -p ${HOOK_LOG_DIR}
+RUN mkdir -p ${CODE_DIR} && mkdir -p ${TARGET_DIR} && mkdir -p ${HOOK_DIR} && mkdir -p ${HOOK_LOG_DIR} && mkdir -p /app/tmp
 
 # Copy hook rule and hook script
-COPY conf/hooks.json /app/hook/hooks.json
+COPY conf/hooks.json ${HOOK_DIR}/githooks.json
 
 # Copy scripts to /app/scripts and set permissions
 COPY scripts /app/scripts
