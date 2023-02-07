@@ -6,7 +6,7 @@
 [![GitHub release (latest by date)][latest-release]][repository-url]
 [![GitHub][license-image]][repository-url]
 
-Pull your project code into a data volume and trigger event via Webhook.
+Trigger a source code pull with a push event from the git webhook. And then execute the commands.
 
 Download size of this image is:
 
@@ -46,7 +46,11 @@ The following environment variables are optional:
 - `BEFORE_PULL_COMMANDS` - Optional. Add any commands that will be run before pull code. left blank, will not execute.
 - `AFTER_PULL_COMMANDS` - Optional. Add any commands that will be run after pull code. left blank, will not execute.
 - `CODE_DIR` - The code dir of the git repository. Optional. Default is `/app/code`.
-- `TARGET_DIR` - The target of the code build. Optional. Default is `/app/target`.
+- `TARGET_DIR` - If after pull code, you want to execute build action, you can set the target dir. Optional. Default is `/app/target`.
+- `INSTALL_DEPS_COMMAND` - If after pull code, you want to execute install dependencies action, you can set the install command. Optional. For example: `npm install`.
+- `BUILD_COMMAND` - If after install deps, you want to execute build action, you can set the build command. Optional. For example: `npm run build`.
+- `BUILD_OUTPUT_DIR` - Set the build output dir. Optional. It is relative to `CODE_DIR`. For example: `dist`. Build output dir will rsync to `TARGET_DIR`.
+- `AFTER_BUILD_COMMANDS` - If after build, you want to execute other action, you can set the commands. Optional. For example: `npm run deploy`.
 
 ### Pushoo
 
@@ -63,10 +67,10 @@ For more details, please refer to [pushoo-cli](https://github.com/funnyzak/pusho
 - `/app/code` - Git code folder. Must same as `CODE_DIR`. For example: `./code:/app/code`.
 - `/root/.ssh` - Git ssh key folder. For example: `./ssh:/root/.ssh`.
 - `/app/target` - The target of the code build. Must same as `TARGET_DIR`. For example: `./target:/app/target`.
+- `/app/scripts` - The main scripts folder. contains `hook.sh`, `utils.sh`, `entrypoint.sh`.
 - `/custom_scripts/on_startup` - which the scripts are executed at startup. For example: `./scripts/on_startup:/custom_scripts/on_startup`.
 - `/custom_scripts/before_pull` - which the scripts are executed at before pull. Same as `/custom_scripts/on_startup`.
 - `/custom_scripts/after_pull` - which the scripts are executed at after pull. Same as `/custom_scripts/on_startup`.
-
 
 ## Modules
 
