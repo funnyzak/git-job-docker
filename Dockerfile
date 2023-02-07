@@ -1,66 +1,72 @@
-FROM funnyzak/java-nodejs-python-go-etc:1.3.2
+FROM funnyzak/java-nodejs-python-go-etc:latest
 
-LABEL maintainer="leon (github.com/funnyzak)"
+MAINTAINER Leon (silenceace@gmail.com)
 
 ARG BUILD_DATE
 ARG VCS_REF
+ARG VERSION
 
-LABEL org.label-schema.vendor="yycc<silenceace@gmail.com>" \
+LABEL org.label-schema.vendor="Leon<silenceace@gmail.com>" \
     org.label-schema.name="GitJob" \
     org.label-schema.build-date="${BUILD_DATE}" \
     org.label-schema.description="Pull your project git code into a data volume and trigger run event via Webhook." \
     org.label-schema.url="https://yycc.me" \
-    org.label-schema.schema-version="1.1.1"	\
+    org.label-schema.schema-version="${VERSION}"	\
     org.label-schema.vcs-type="Git" \
     org.label-schema.vcs-ref="${VCS_REF}" \
     org.label-schema.vcs-url="https://github.com/funnyzak/git-job-docker" 
 
+# Set the timezone and locale
+ENV TZ Asia/Shanghai
+ENV LC_ALL C.UTF-8
 ENV LANG=C.UTF-8
 
-# install pushoo-cli
+ENV PUSHOO_PUSH_PLATFORMS=
+ENV PUSHOO_PUSH_TOKENS=
+
+ENV STARTUP_COMMAND=
+ENV BEFORE_PULL_COMMANDS=
+ENV AFTER_PULL_COMMANDS=
+
+ENV GIT_USER_NAME=funnyzak
+ENV GIT_USER_EMAIL=
+ENV GIT_REPO_URL=
+ENV GIT_BRANCH=
+ENV USE_HOOK=1
+ENV HOOK_TOKEN=
+
+ENV SERVER_NAME=gitjob
+
+ENV TARGET_DIR /app/target
+ENV CODE_DIR /app/code
+ENV HOOK_DIR /app/hook
+ENV HOOK_LOG_DIR /var/log/webhook
+
+# Install pushoo-cli
 RUN npm install -g pushoo-cli
 
-# Create Dir
-RUN mkdir -p /app/hook && mkdir -p /app/code && mkdir -p /var/log/webhook
+# Create operation folders
+RUN mkdir -p ${CODE_DIR} && mkdir -p ${TARGET_DIR} && mkdir -p ${HOOK_DIR} && mkdir -p ${HOOK_LOG_DIR
 
-# Copy webhook config
+# Copy hook rule and hook script
 COPY conf/hooks.json /app/hook/hooks.json
-COPY scripts/hook.sh /app/hook/hook.sh
 
-# Copy our Scripts
-COPY scripts/start.sh /usr/bin/start.sh
-COPY scripts/utils.sh /app/scripts/utils.sh
-COPY scripts/run_scripts_after_pull.sh /usr/bin/run_scripts_after_pull.sh
-COPY scripts/run_scripts_before_pull.sh /usr/bin/run_scripts_before_pull.sh
-COPY scripts/run_scripts_on_startup.sh /usr/bin/run_scripts_on_startup.sh
-COPY scripts/run_scripts_after_package.sh /usr/bin/run_scripts_after_package.sh
-
-# Add permissions to our scripts
-RUN chmod +x /app/scripts/utils.sh
-RUN chmod +x /app/hook/hook.sh
-RUN chmod +x /usr/bin/run_scripts_after_pull.sh
-RUN chmod +x /usr/bin/run_scripts_before_pull.sh
-RUN chmod +x /usr/bin/run_scripts_on_startup.sh
-RUN chmod +x /usr/bin/run_scripts_after_package.sh
+# Copy scripts to /app/scripts and set permissions
+COPY scripts /app/scripts
+RUN chmod +x -R /app/scripts
 
 # Add any user custom scripts + set permissions
 ADD custom_scripts /custom_scripts
 RUN chmod +x -R /custom_scripts
-
-RUN chmod +x -R /app/code
 
 # run nginx with root
 RUN sed -i 's/^user [a-z0-9\-]\+/user root/' /etc/nginx/nginx.conf
 # http proxy 9000 80 
 COPY conf/nginx_default.conf /etc/nginx/sites-available/default
 
-# create final target folder
-RUN mkdir -p /app/target/
-
-# Expose Webhook、nginx port
+# Expose webhook and nginx port
 EXPOSE 80 9000
 
-WORKDIR /app/code
+WORKDIR ${CODE_DIR}
 
-# run start script
-ENTRYPOINT ["/bin/bash", "/usr/bin/start.sh"]
+ENTRYPOINT ["/bin/bash", "/app/scripts/entrypoint.sh"]

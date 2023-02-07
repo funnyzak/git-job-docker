@@ -1,7 +1,7 @@
 [
   {
     "id": "git-webhook",
-    "execute-command": "/app/hook/hook.sh",
+    "execute-command": "/app/scripts/hook.sh",
     "command-working-directory": "/app/code",
     "pass-environment-to-command": [
       {
@@ -25,7 +25,7 @@
         {
           "match": {
             "type": "value",
-            "value": "refs/heads/${branch}",
+            "value": "refs/heads/${hook_branch}",
             "parameter": {
               "source": "payload",
               "name": "ref"
@@ -35,7 +35,7 @@
         {
           "match": {
             "type": "value",
-            "value": "${token}",
+            "value": "${hook_token}",
             "parameter": {
               "source": "url",
               "name": "token"
