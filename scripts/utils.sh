@@ -58,7 +58,7 @@ run_folder_scripts() {
 }
 
 print_environment() {
-  log "Current running environment: \nGit name: ${GIT_NAME}\nGit email: ${GIT_EMAIL}\nGit Repo: ${GIT_REPO}\nGit Branch: ${GIT_BRANCH}\nCode Dir: ${CODE_DIR}\nTarget Dir: ${TARGET_DIR}\nHook Dir: ${HOOK_DIR}\nHook log dir: ${HOOK_LOG_DIR}\nHook Token: ${HOOK_TOKEN}\nUse Hook: ${USE_HOOK}\nStartup Command: ${STARTUP_COMMAND}\nBefore Pull Command: ${BEFORE_PULL_COMMAND}\nAfter Pull Command: ${AFTER_PULL_COMMAND}\nServer name: ${SERVER_NAME}\nPushoo push platforms: ${PUSHOO_PUSH_PLATFORMS}\nPushoo push tokens: ${PUSHOO_PUSH_TOKENS}"
+  log "Current running environment: \nGit name: ${GIT_USER_NAME}\nGit email: ${GIT_USER_EMAIL}\nGit Repo: ${GIT_REPO_URL}\nGit Branch: ${GIT_BRANCH}\nCode Dir: ${CODE_DIR}\nTarget Dir: ${TARGET_DIR}\nHook Dir: ${HOOK_DIR}\nHook log dir: ${HOOK_LOG_DIR}\nHook Token: ${HOOK_TOKEN}\nUse Hook: ${USE_HOOK}\nStartup Command: ${STARTUP_COMMAND}\nBefore Pull Command: ${BEFORE_PULL_COMMAND}\nAfter Pull Command: ${AFTER_PULL_COMMAND}\nServer name: ${SERVER_NAME}\nPushoo push platforms: ${PUSHOO_PUSH_PLATFORMS}\nPushoo push tokens: ${PUSHOO_PUSH_TOKENS}"
 }
 
 # checks if branch has something pending

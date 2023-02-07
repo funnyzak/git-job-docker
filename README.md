@@ -1,181 +1,255 @@
 # Git Job Docker
 
-Pull your project git code into a data volume and trigger event via Webhook.
+[![Build Status][build-status-image]][build-status]
+[![Docker Stars][docker-star-image]][repository-url]
+[![Docker Pulls][docker-pull-image]][repository-url]
+[![GitHub release (latest by date)][latest-release]][repository-url]
+[![GitHub][license-image]][repository-url]
 
-[![release](https://github.com/funnyzak/git-job-docker/actions/workflows/release.yml/badge.svg)](https://github.com/funnyzak/git-job/actions/workflows/release.yml)
-[![Docker Stars](https://img.shields.io/docker/stars/funnyzak/git-job.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-job/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/funnyzak/git-job.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-job/)
+Pull your project code into a data volume and trigger event via Webhook.
 
-This image is based on Debian Linux image, which is a 928MB image.
+Download size of this image is:
 
+[![Image Size][docker-image-size]][docker-hub-url]
 
-[Docker hub image: funnyzak/git-job](https://hub.docker.com/r/funnyzak/git-job)
+[Docker hub image: funnyzak/git-job][docker-hub-url]
 
-Docker Pull Command: `docker pull funnyzak/git-job`
+**Docker Pull Command**: `docker pull funnyzak/git-job:latest`
 
-Visit Url: [http://hostname:80/](#)
+Attention: the nginx service is enabled by default, and the proxy ports are 80 and 9000, default webhook event is `push`. And the webhook url path is `/hooks/git-webhook`, url parameter is `token`. For example:
 
-Webhook Url: [http://hostname:9000|80/hooks/git-webhook?token=HOOK_TOKEN](#)
+- `http://hostname:80/hooks/git-webhook?token=HOOK_TOKEN`
+- `http://hostname:9000/hooks/git-webhook?token=HOOK_TOKEN`
 
-Base Image: [java-nodejs-python-go-etc-docker](https://github.com/funnyzak/java-nodejs-python-go-etc-docker)
+## Environment
 
----
+The following environment variables are used to configure the container:
 
-## Main Modules
-
-* nginx 1.18.0
-* git 2.30.2
-* curl 7.74.0
-* wget 1.21
-* nrm 1.2.5
-* ossutil64 1.7.14
-* go 1.18.8
-* java 1.8.0_282
-* mvn 3.3.9
-* python 3.9.2
-* node 16.18.0
-* npm 8.19.2
-* yarn 1.22.19
-* n 8.2.0
-* tar 1.34
-* zip 10.2.1
-* bash 5.1.4
-* rsync 3.2.3
-* gzip 1.10
-* bzip2 1.0.8
-* openssl 1.1.1n
-* tree 1.8.0
-* crontab 1.5.2
-* mariadb-client-10.5
-* [webhook](https://github.com/adnanh/webhook)
-
-## Other Modules
-
-* tzdata
-* fc-config
-* msttcorefonts
-* gcc
-* g++
-* make
-  
-## Available Parameters
+### Required
 
 The following flags are a list of all the currently supported options that can be changed by passing in the variables to docker with the -e flag.
 
-* **USE_HOOK** : The web hook is enabled as long as this is present.
-* **HOOK_TOKEN** : Custom hook security tokens, strings.
-* **GIT_REPO** : If it is a private repository, and is ssh link, set the private key file with the file name ***id_rsa*** must be set. If you use https link, you can also set this format link type: ***https://GIT_TOKEN@GIT_REPO***.
-* **GIT_BRANCH** : Select a branch for clone and auto hook match.
-* **GIT_EMAIL** : Set your email for git (required for git to work).
-* **GIT_NAME** : Set your name for git (required for git to work).
-* **STARTUP_COMMANDS** : Optional. Add any commands that will be run at the end of the start.sh script. left blank, will not execute.
-* **AFTER_PULL_COMMANDS** : Optional. Add any commands that will be run after pull. left blank, will not execute.
-* **BEFORE_PULL_COMMANDS** : Optional. Add any commands that will be run before pull. left blank, will not execute.
-* **AFTER_PACKAGE_COMMANDS** : Optional. Add any commands that will be run after package. left blank, will not execute.
+- `GIT_USER_EMAIL` - The email of the git repository. Required.
+- `GIT_REPO_URL` - The url of the git repository. Required. Example: `git@github.com:funnyzak/vp-starter.git`.
+- `HOOK_TOKEN` - The token of the webhook. Required.
 
-### Notify
+### Optional
 
-* **NOTIFY_ACTION_LABEL**: Optional. notify action name define. default : `StartUp|BeforePull|AfterPull|AfterPackage`
-* **NOTIFY_ACTION_LIST**: Optional. notify action list. included events will be notified. default : `BeforePull|AfterPackage`
-* **NOTIFY_URL_LIST** : Optional. Notify link array , each separated by **|**
-* **TELEGRAM_BOT_TOKEN**: Optional. telegram Bot Token-chatid setting. eg: **token###chatid|token2###chatid2**. each separated by **|** [Official Site](https://core.telegram.org/api).
-* **IFTTT_HOOK_URL_LIST** : Optional. ifttt webhook url array , each separated by **|** [Official Site](https://ifttt.com/maker_webhooks).
-* **DINGTALK_TOKEN_LIST**: Optional. DingTalk Bot TokenList, each separated by **|** [Official Site](https://www.dingtalk.com).
-* **QYWX_BOT_KEY_LIST**: Optional. WeChat Bot Bot KeyList, each separated by **|** [Official Site](https://wx.qq.com).
-* **JISHIDA_TOKEN_LIST**: Optional. JiShiDa TokenList, each separated by **|**. [Official Site](https://push.ijingniu.cn/admin/index/).
-* **APP_NAME** : Optional. When setting notify, it is best to set.
+The following environment variables are optional:
 
----
+- `USE_HOOK` - Set to `true` to enable the webhook. Default is `true`.
+- `GIT_USER_NAME` - The author username of the git repository. Optional.
+- `GIT_BRANCH` - The branch of the git repository to pull. Optional. Default is the repo default branch.
+- `STARTUP_COMMANDS` - Optional. Add any commands that will be run at the end of the start shell script. left blank, will not execute.
+- `BEFORE_PULL_COMMANDS` - Optional. Add any commands that will be run before pull code. left blank, will not execute.
+- `AFTER_PULL_COMMANDS` - Optional. Add any commands that will be run after pull code. left blank, will not execute.
+- `CODE_DIR` - The code dir of the git repository. Optional. Default is `/app/code`.
+- `TARGET_DIR` - The target of the code build. Optional. Default is `/app/target`.
+
+### Pushoo
+
+If you want to receive message with pushoo, you need to set `PUSHOO_PUSH_PLATFORMS` and `PUSHOO_PUSH_TOKENS`.
+
+- `SERVER_NAME` - The server name, used for pushoo message. Optional.
+- `PUSHOO_PUSH_PLATFORMS` - The push platforms, separated by commas. Optional.
+- `PUSHOO_PUSH_TOKENS` - The push tokens, separated by commas. Optional.
+
+For more details, please refer to [pushoo-cli](https://github.com/funnyzak/pushoo-cli).
 
 ## Volume
 
-* **/app/code** : git source code dir. docker work dir.
-* **/root/.ssh** :  ssh key folder.
-* **/app/target** :  nginx 80 html folder.
-* **/custom_scripts/on_startup** :  which the scripts are executed at startup, traversing all the scripts and executing them sequentially
-* **/custom_scripts/before_pull** :  which the scripts are executed at before pull
-* **/custom_scripts/after_pull** :  which the scripts are executed at after pull
-* **/custom_scripts/after_package** :  which the scripts are executed at after package.
+- `/app/code` - Git code folder. Must same as `CODE_DIR`. For example: `./code:/app/code`.
+- `/root/.ssh` - Git ssh key folder. For example: `./ssh:/root/.ssh`.
+- `/app/target` - The target of the code build. Must same as `TARGET_DIR`. For example: `./target:/app/target`.
+- `/custom_scripts/on_startup` - which the scripts are executed at startup. For example: `./scripts/on_startup:/custom_scripts/on_startup`.
+- `/custom_scripts/before_pull` - which the scripts are executed at before pull. Same as `/custom_scripts/on_startup`.
+- `/custom_scripts/after_pull` - which the scripts are executed at after pull. Same as `/custom_scripts/on_startup`.
 
-## ssh-keygen
 
-`ssh-keygen -t rsa -b 4096 -C "youremail@gmail.com" -N "" -f ./id_rsa`
+## Modules
 
----
+The following modules are installed in the image.
 
-## SendMessage
+### Base Module
 
-You can use notifications by call "/app/scripts/utils.sh" in the execution script.
+- **nginx** 1.22
+- **git** 2.30.2
+- **curl** 7.74.0
+- **wget** 1.21
+- **nrm** 1.2.5
+- **ossutil64** 1.7.14
+- **ttf-mscorefonts**
+- **go** 1.20
+- **java** 1.8.0_292
+- **mvn** 3.3.9
+- **python** 3.9.2
+- **node** 16.19.0
+- **npm** 8.19.3
+- **yarn** 1.22.19
+- **certbot**
+- **n** 8.2.0
+- **tar** 1.34
+- **zip** 10.2.1
+- **bash** 5.1.4
+- **rsync** 3.2.3
+- **gzip** 1.10
+- **bzip2** 1.0.8
+- **openssl** 1.1.1n
+- **tree** 1.8.0
+- **crontab** 1.5.2
+- **rclone** 1.53.3
+- **mysql-client** 10.19
+- **[webhook 2.8.0](https://github.com/adnanh/webhook)**
+
+### Other
+
+- **tzdata**
+- **gcc**
+- **g++**
+- **[pushoo-cli](https://github.com/funnyzak/pushoo-cli)**
+
+More details, please refer to [funnyzak/java-nodejs-python-go-etc-docker](https://github.com/funnyzak/java-nodejs-python-go-etc-docker).
+
+## Usage
+
+### Command
+
+Follow the example below to use docker to start the container, you should acdjust the environment variables according to your needs.
 
 ```bash
-source /app/scripts/utils.sh;
-
-notify_all "hello world"
+docker run -d -t -i --name git-job --restart on-failure:5 --privileged=true \
+-e TZ=Asia/Shanghai \
+-e LANG=C.UTF-8 \
+-e USE_HOOK=1 \
+-e GIT_USER_NAME=Leon \
+-e GIT_USER_EMAIL=silenceace@gmail.com \
+-e GIT_REPO_URL=git@github.com:funnyzak/git-job.git \
+-p 81:80 funnyzak/git-job
 ```
 
----
+### Compose
 
-## Display Package Elapsed Time
+#### Full configuration
 
-show package elapsed second.
+Follow the example below to use docker-compose to start the container, and the environment variables are fully configured.
 
-```sh
-docker exec servername cat /tmp/ELAPSED_TIME
-```
-
-show package elapsed time label.
-
-```sh
-docker exec servername cat /tmp/ELAPSED_TIME_LABEL
-```
-
-show git commit hash that currently deployed successfully.
-```sh
-docker exec servername cat /tmp/CURRENT_GIT_COMMIT_ID
-```
-
-___
-
-## Docker-Compose
-
- ```docker
+ ```yaml
 version: '3'
 services:
-  hookserver:
+  app:
     image: funnyzak/git-job
-    privileged: true
-    container_name: git-hook
+    privileged: false
+    container_name: gitjob
     working_dir: /app/code
-    logging:
-      driver: 'json-file'
-      options:
-        max-size: '1g'
     tty: true
     environment:
       - TZ=Asia/Shanghai
       - LANG=C.UTF-8
+      # repo config
       - USE_HOOK=1
-      - HOOK_TOKEN=hello
-      - GIT_REPO=https://github.com/vuejs/vuepress.git
-      - GIT_BRANCH=master
-      - GIT_EMAIL=youremail
-      - GIT_NAME=yourname
-      # - STARTUP_COMMANDS=nrm use cnpm && n 16.16.0 && yarn
-      - STARTUP_COMMANDS=echo "STARTUP_COMMANDS helllo"
-      - AFTER_PULL_COMMANDS=echo "AFTER_PULL_COMMANDS hello"
-      - BEFORE_PULL_COMMANDS=echo "AFTER_PULL_COMMANDS”
-      - APP_NAME=myapp
-      - NOTIFY_ACTION_LABEL=已启动|源码拉取中..|源码已拉取最新,开始打包..|部署已完成
-      - NOTIFY_ACTION_LIST=StartUp|BeforePull|AfterPull|AfterPackage
-      - TELEGRAM_BOT_TOKEN=123456789:SDFW33-CbovPM2TeHFCiPUDTLy1uYmN04I###9865678987
-      - DINGTALK_TOKEN_LIST=dingtoken_one|dingtoken_two
-      - JISHIDA_TOKEN_LIST=jishida_token
+      - GIT_USER_NAME=Leon
+      - GIT_USER_EMAIL=silenceace@gmail.com
+      - HOOK_TOKEN=XqMWRndVuxXQDNzbE9Z
+      - GIT_REPO_URL=git@github.com:funnyzak/git-job.git
+      - GIT_BRANCH=main
+      # commands
+      - STARTUP_COMMANDS=echo start time:$$(date)
+      - BEFORE_PULL_COMMANDS=echo before pull time:$$(date)
+      - AFTER_PULL_COMMANDS=echo after pull time:$$(date)
+      # pushoo 
+      - SERVER_NAME=app-db-backup
+      - PUSHOO_PUSH_PLATFORMS=dingtalk,bark
+      - PUSHOO_PUSH_TOKENS=dingtalk:xxxx,bark:xxxx
+      # custom environment for build
+      - INSTALL_DEPS_COMMAND=echo install deps time:$$(date)
+      - BUILD_COMMAND=mkdir target && zip -r ./target/release.zip ./*
+      - BUILD_OUTPUT_DIR=./dist
+      # custom environment for aliyun oss
+      - ALIYUN_OSS_ENDPOINT=oss-cn-beijing-internal.aliyuncs.com
+      - ALIYUN_OSS_AK_ID=123456789
+      - ALIYUN_OSS_AK_SID=sxgh645etrdgfjh4635wer
+      # optional
+      - CODE_DIR=/app/code
+      - TARGET_DIR=/app/target
     restart: on-failure
     ports:
-      - 1001:9000
+      - 1038:80
     volumes:
-      - ./custom_scripts:/custom_scripts
-      - ./code:/app/code
+      - ./target:/app/target
       - ./ssh:/root/.ssh
-
+      - ./scripts/after_pull/after_pull_build_app.sh:/custom_scripts/after_pull/3.sh
  ```
+
+#### Simple configuration
+
+Follow the example below to use docker-compose to start the container, and the environment variables are not fully configured.
+
+ ```yaml
+version: '3'
+services:
+  app:
+    image: funnyzak/git-job
+    privileged: false
+    container_name: gitjob
+    tty: true
+    environment:
+      - GIT_USER_NAME=Leon
+      - GIT_USER_EMAIL=silenceace@gmail.com
+      - HOOK_TOKEN=XqMWRndVuxXQDNzbE9Z
+      - GIT_REPO_URL=git@github.com:funnyzak/git-job.git
+      - GIT_BRANCH=main
+      # pushoo 
+      - SERVER_NAME=app-db-backup
+      - PUSHOO_PUSH_PLATFORMS=dingtalk,bark
+      - PUSHOO_PUSH_TOKENS=dingtalk:xxxx,bark:xxxx
+      # custom environment for build
+      - INSTALL_DEPS_COMMAND=echo install deps time:$$(date)
+      - BUILD_COMMAND=mkdir target && zip -r ./target/release.zip ./*
+      - BUILD_OUTPUT_DIR=./dist
+    restart: on-failure
+    ports:
+      - 1038:80
+    volumes:
+      - ./target:/app/target
+      - ./ssh:/root/.ssh
+      - ./scripts/after_pull/after_pull_build_app.sh:/custom_scripts/after_pull/3.sh
+ ```
+
+## Other
+
+### SSH Key
+
+If you want to use ssh-key, you need to mount the ssh-key folder to `/root/.ssh`. Generally, you need to mount the `id_rsa` and `id_rsa.pub` files. For example:
+
+ ```yaml
+volumes:
+  - ./ssh:/root/.ssh
+ ```
+
+ Your can use `ssh-keygen` to generate the ssh-key.For example:
+
+ ```bash
+ssh-keygen -t rsa -b 4096 -C "youremail@gmail.com" -N "" -f ./id_rsa
+```
+
+## Contribution
+
+If you have any questions or suggestions, please feel free to submit an issue or pull request.
+
+<a href="https://github.com/funnyzak/git-job-docker/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=funnyzak/git-job-docker" />
+</a>
+
+## License
+
+MIT License © 2022 [funnyzak](https://github.com/funnyzak)
+
+[build-status-image]: https://github.com/funnyzak/git-job-docker/actions/workflows/build.yml/badge.svg
+[build-status]: https://github.com/funnyzak/git-job-docker/actions
+[repository-url]: https://github.com/funnyzak/git-job-docker
+[license-image]: https://img.shields.io/github/license/funnyzak/git-job-docker?style=flat-square&logo=github&logoColor=white&label=license
+[latest-release]: https://img.shields.io/github/v/release/funnyzak/git-job-docker
+[docker-star-image]: https://img.shields.io/docker/stars/funnyzak/git-job.svg?style=flat-square
+[docker-pull-image]: https://img.shields.io/docker/pulls/funnyzak/git-job.svg?style=flat-square
+[docker-image-size]: https://img.shields.io/docker/image-size/funnyzak/git-job
+[docker-hub-url]: https://hub.docker.com/r/funnyzak/git-job

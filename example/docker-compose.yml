@@ -11,10 +11,10 @@ services:
       - LANG=C.UTF-8
       # repo config
       - USE_HOOK=1
-      - GIT_NAME=Leon
-      - GIT_EMAIL=silenceace@gmail.com
+      - GIT_USER_NAME=Leon
+      - GIT_USER_EMAIL=silenceace@gmail.com
       - HOOK_TOKEN=XqMWRndVuxXQDNzbE9Z
-      - GIT_REPO=git@github.com:funnyzak/git-job.git
+      - GIT_REPO_URL=git@github.com:funnyzak/git-job.git
       - GIT_BRANCH=main
       # commands
       - STARTUP_COMMANDS=echo start time:$$(date)
@@ -35,8 +35,6 @@ services:
       # optional
       - CODE_DIR=/app/code
       - TARGET_DIR=/app/target
-      - HOOK_DIR=/app/hook
-      - HOOK_LOG_DIR=/var/log/webhook
     restart: on-failure
     ports:
       - 1038:80
