@@ -16,12 +16,12 @@ Download size of this image is:
 
 **Docker Pull Command**: `docker pull funnyzak/git-job:latest`
 
-Attention: the nginx service is enabled by default, and the proxy ports are 80 and 9000, default webhook event is `push`. And the webhook url path is `/hooks/git-webhook`, url parameter is `token`. For example:
+The nginx service is enabled by default, and the proxy ports are 80 and 9000, default webhook event is `push`. And the webhook url path is `/hooks/git-webhook`, url parameter is `token`. For example:
 
 - `http://hostname:80/hooks/git-webhook?token=HOOK_TOKEN`
 - `http://hostname:9000/hooks/git-webhook?token=HOOK_TOKEN`
 
-Attention: Current version is not compatible old version, please use tag `1.1.0` if you want to use old version.
+**Attention:** Current version is not compatible old version, please use tag `1.1.0` if you want to use old version.
 
 ## Environment
 
@@ -31,8 +31,8 @@ The following environment variables are used to configure the container:
 
 The following flags are a list of all the currently supported options that can be changed by passing in the variables to docker with the -e flag.
 
-- `GIT_USER_EMAIL` - The email of the git repository. Required.
-- `GIT_REPO_URL` - The url of the git repository. Required. Example: `git@github.com:funnyzak/vp-starter.git`.
+- `GIT_USER_EMAIL` - The email of the git committer. Required.
+- `GIT_REPO_URL` - The remote url of the git repository. Required. Example: `git@github.com:funnyzak/vp-starter.git`.
 - `HOOK_TOKEN` - The token of the webhook. Required.
 
 ### Optional
@@ -40,11 +40,11 @@ The following flags are a list of all the currently supported options that can b
 The following environment variables are optional:
 
 - `USE_HOOK` - Set to `true` to enable the webhook. Default is `true`.
-- `GIT_USER_NAME` - The author username of the git repository. Optional.
-- `GIT_BRANCH` - The branch of the git repository to pull. Optional. Default is the repo default branch.
-- `STARTUP_COMMANDS` - Optional. Add any commands that will be run at the end of the start shell script. left blank, will not execute.
-- `BEFORE_PULL_COMMANDS` - Optional. Add any commands that will be run before pull code. left blank, will not execute.
-- `AFTER_PULL_COMMANDS` - Optional. Add any commands that will be run after pull code. left blank, will not execute.
+- `GIT_USER_NAME` - The username of the git. Optional.
+- `GIT_BRANCH` - The branch of the git repository to pull. Optional. Default is the repo main branch.
+- `STARTUP_COMMANDS` - Optional. A shell command that will be run at the end of the start shell script. left blank, will not execute.
+- `BEFORE_PULL_COMMANDS` - Optional. A shell command that will be run before pull code. left blank, will not execute.
+- `AFTER_PULL_COMMANDS` - Optional. A shell command that will be run after pull code. left blank, will not execute.
 - `CODE_DIR` - The code dir of the git repository. Optional. Default is `/app/code`.
 - `TARGET_DIR` - If after pull code, you want to execute build action, you can set the target dir. Optional. Default is `/app/target`.
 - `INSTALL_DEPS_COMMAND` - If after pull code, you want to execute install dependencies action, you can set the install command. Optional. For example: `npm install`.
@@ -71,50 +71,6 @@ For more details, please refer to [pushoo-cli](https://github.com/funnyzak/pusho
 - `/custom_scripts/on_startup` - which the scripts are executed at startup. For example: `./scripts/on_startup:/custom_scripts/on_startup`.
 - `/custom_scripts/before_pull` - which the scripts are executed at before pull. Same as `/custom_scripts/on_startup`.
 - `/custom_scripts/after_pull` - which the scripts are executed at after pull. Same as `/custom_scripts/on_startup`.
-
-## Modules
-
-The following modules are installed in the image.
-
-### Base Module
-
-- **nginx** 1.22
-- **git** 2.30.2
-- **curl** 7.74.0
-- **wget** 1.21
-- **nrm** 1.2.5
-- **ossutil64** 1.7.14
-- **ttf-mscorefonts**
-- **go** 1.20
-- **java** 1.8.0_292
-- **mvn** 3.3.9
-- **python** 3.9.2
-- **node** 16.19.0
-- **npm** 8.19.3
-- **yarn** 1.22.19
-- **certbot**
-- **n** 8.2.0
-- **tar** 1.34
-- **zip** 10.2.1
-- **bash** 5.1.4
-- **rsync** 3.2.3
-- **gzip** 1.10
-- **bzip2** 1.0.8
-- **openssl** 1.1.1n
-- **tree** 1.8.0
-- **crontab** 1.5.2
-- **rclone** 1.53.3
-- **mysql-client** 10.19
-- **[webhook 2.8.0](https://github.com/adnanh/webhook)**
-
-### Other
-
-- **tzdata**
-- **gcc**
-- **g++**
-- **[pushoo-cli](https://github.com/funnyzak/pushoo-cli)**
-
-More details, please refer to [funnyzak/java-nodejs-python-go-etc-docker](https://github.com/funnyzak/java-nodejs-python-go-etc-docker).
 
 ## Usage
 
@@ -237,6 +193,50 @@ volumes:
  ```bash
 ssh-keygen -t rsa -b 4096 -C "youremail@gmail.com" -N "" -f ./id_rsa
 ```
+
+## Modules
+
+The following modules are installed in the image.
+
+### Base Module
+
+- **nginx** 1.22
+- **git** 2.30.2
+- **curl** 7.74.0
+- **wget** 1.21
+- **nrm** 1.2.5
+- **ossutil64** 1.7.14
+- **ttf-mscorefonts**
+- **go** 1.20
+- **java** 1.8.0_292
+- **mvn** 3.3.9
+- **python** 3.9.2
+- **node** 16.19.0
+- **npm** 8.19.3
+- **yarn** 1.22.19
+- **certbot**
+- **n** 8.2.0
+- **tar** 1.34
+- **zip** 10.2.1
+- **bash** 5.1.4
+- **rsync** 3.2.3
+- **gzip** 1.10
+- **bzip2** 1.0.8
+- **openssl** 1.1.1n
+- **tree** 1.8.0
+- **crontab** 1.5.2
+- **rclone** 1.53.3
+- **mysql-client** 10.19
+- **[webhook 2.8.0](https://github.com/adnanh/webhook)**
+
+### Other
+
+- **tzdata**
+- **gcc**
+- **g++**
+- **[pushoo-cli](https://github.com/funnyzak/pushoo-cli)**
+
+More details, please refer to [funnyzak/java-nodejs-python-go-etc-docker](https://github.com/funnyzak/java-nodejs-python-go-etc-docker).
 
 ## Contribution
 
