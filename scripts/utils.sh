@@ -1,4 +1,6 @@
 #!/bin/bash
+# Author: Leon<silenceace at gmail.com>
+
 export PATH=$PATH:/usr/local/bin
 
 # log message
@@ -14,7 +16,7 @@ log() {
     push_message=$3
   fi
 
-  echo -e "$(date '+%Y-%m-%d %H:%M:%S') [${log_level}] $1 "
+  echo -e "[gitjob] $(date '+%Y-%m-%d %H:%M:%S') [${log_level}] $1 "
 
   if [ -n "$PUSHOO_PUSH_PLATFORMS" -a -n "$PUSHOO_PUSH_TOKENS" ] && [ "$push_message" = "true" ]; then
     pushoo -P "${PUSHOO_PUSH_PLATFORMS}" -K "${PUSHOO_PUSH_TOKENS}" -C "$SERVER_NAME Git Job, Message: $1" -T "$SERVER_NAME Git Job" > /dev/null 2>&1
@@ -34,7 +36,6 @@ run_command() {
     return
   fi
 
-  log "Execute $2 command: $1"
   eval "$1" 1>/app/tmp/tmp_output_log 2>/app/tmp/tmp_error_log
   if [ $? -ne 0 ]; then
     log "Execute $1 command: $1 failed. Please check your command. Error log: $(cat /app/tmp/tmp_error_log)" "error" "true"
@@ -43,13 +44,11 @@ run_command() {
   fi
 }
 
-# $1 folder path
-# $2 shell type
+# $1 folder path $2 shell type
 run_folder_scripts() {
   if [ -n "$(ls -A $1/ -A | grep '.sh' 2>/dev/null)" ]; then
     for file in $1/*; do
       if [ ! -d "$file" ]; then
-        log "Run $2 shell file: $file"
         $file 1>/app/tmp/tmp_output_log 2>/app/tmp/tmp_error_log
         if [ $? -ne 0 ]; then
           log "Run $2 shell file: $file failed. Please check your $2 shell. Error log: $(cat /app/tmp/tmp_error_log)" "error" "true"

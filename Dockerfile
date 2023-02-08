@@ -53,7 +53,7 @@ COPY scripts /app/scripts
 RUN chmod +x -R /app/scripts
 
 # Add any user custom scripts + set permissions
-ADD custom_scripts /custom_scripts
+ADD conf/custom_scripts /custom_scripts
 RUN chmod +x -R /custom_scripts
 
 # run nginx with root
