@@ -122,6 +122,7 @@ services:
       - SERVER_NAME=demo server
       - PUSHOO_PUSH_PLATFORMS=dingtalk,bark
       - PUSHOO_PUSH_TOKENS=dingtalktoken:barktoken
+      - PUSHOO_PUSH_OPTIONS={"dingtalk":{"atMobiles":["13800000000"]},"bark":{"sound":"tink"}}
       # custom environment for build
       - INSTALL_DEPS_COMMAND=echo install deps time:$$(date)
       - BUILD_COMMAND=mkdir target && zip -r ./target/release.zip ./*
