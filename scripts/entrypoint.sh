@@ -60,7 +60,7 @@ chmod +x -R /custom_scripts
 chmod +x -R ${HOOK_DIR}
 log "Set /custom_scripts and ${HOOK_DIR} permission to 755 done."
 
-run_command "$STARTUP_COMMAND" "startup"
+run_command "$STARTUP_COMMANDS" "startup"
 run_folder_scripts "/custom_scripts/on_startup" "on startup"
 
 # Set hook rule

@@ -5,6 +5,8 @@ cd ${CODE_DIR}
 
 source /app/scripts/utils.sh;
 
+hook_start_time=$(date +%s)
+
 log "Start run hook script..."
 
 run_command "$BEFORE_PULL_COMMANDS" "before pull"
@@ -33,7 +35,18 @@ fi
 
 run_command "$AFTER_BUILD_COMMANDS" "after build"
 
+hook_end_time=$(date +%s)
+hook_elapsed_time=$((hook_end_time-hook_start_time))
+human_readable_time=$(date -d@${hook_elapsed_time} -u +%H:%M:%S)
+
+cd ${CODE_DIR}
+
 # push success message
-log "Build app done. Git branch: $(parse_git_branch), commit: $(parse_git_commit), commit message: $(parse_git_message), commit author: $(parse_git_author), commit date: $(parse_git_date)." "info" "true"
+log "**Git branch**: $(parse_git_branch)
+**Git commit id**: $(prase_git_commitid) 
+**Git commit message**: $(parse_git_message)
+**Git commit autho**r: $(parse_git_author)
+**Git commit date**: $(parse_git_date)
+**Total elapsed time**: $human_readable_time" "info" "true"
 
 log "Run hook script done."

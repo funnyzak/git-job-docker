@@ -23,11 +23,12 @@ services:
       # pushoo 
       - SERVER_NAME=demo server
       - PUSHOO_PUSH_PLATFORMS=dingtalk,bark
-      - PUSHOO_PUSH_TOKENS=dingtalk:xxxx,bark:xxxx
+      - PUSHOO_PUSH_TOKENS=dingtalktoken:barktoken
       # custom environment for build
       - INSTALL_DEPS_COMMAND=echo install deps time:$$(date)
       - BUILD_COMMAND=mkdir target && zip -r ./target/release.zip ./*
       - BUILD_OUTPUT_DIR=./dist
+      - AFTER_BUILD_COMMANDS=echo after build time:$$(date)
       # custom environment for aliyun oss
       - ALIYUN_OSS_ENDPOINT=oss-cn-beijing-internal.aliyuncs.com
       - ALIYUN_OSS_AK_ID=123456789

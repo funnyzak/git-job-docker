@@ -1,8 +1,8 @@
 # Git Job Docker
 
 [![Build Status][build-status-image]][build-status]
-[![Docker Stars][docker-star-image]][repository-url]
-[![Docker Pulls][docker-pull-image]][repository-url]
+[![Docker Stars][docker-star-image]][docker-hub-url]
+[![Docker Pulls][docker-pull-image]][docker-hub-url]
 [![GitHub release (latest by date)][latest-release]][repository-url]
 [![GitHub][license-image]][repository-url]
 
@@ -121,11 +121,12 @@ services:
       # pushoo 
       - SERVER_NAME=demo server
       - PUSHOO_PUSH_PLATFORMS=dingtalk,bark
-      - PUSHOO_PUSH_TOKENS=dingtalk:xxxx,bark:xxxx
+      - PUSHOO_PUSH_TOKENS=dingtalktoken:barktoken
       # custom environment for build
       - INSTALL_DEPS_COMMAND=echo install deps time:$$(date)
       - BUILD_COMMAND=mkdir target && zip -r ./target/release.zip ./*
       - BUILD_OUTPUT_DIR=./dist
+      - AFTER_BUILD_COMMANDS=echo after build time:$$(date)
       # custom environment for aliyun oss
       - ALIYUN_OSS_ENDPOINT=oss-cn-beijing-internal.aliyuncs.com
       - ALIYUN_OSS_AK_ID=123456789
