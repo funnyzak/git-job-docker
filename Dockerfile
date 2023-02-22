@@ -1,4 +1,4 @@
-FROM funnyzak/java-nodejs-python-go-etc:1.5.0
+FROM funnyzak/java-nodejs-python-go-etc:1.5.1
 
 MAINTAINER Leon (silenceace@gmail.com)
 
