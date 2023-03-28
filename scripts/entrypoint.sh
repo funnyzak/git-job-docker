@@ -26,6 +26,9 @@ if [ ! -z "$GIT_USER_EMAIL" ]; then
 fi
 log "Set git name: ${GIT_USER_NAME}, email: ${GIT_USER_EMAIL} done."
 
+git config pull.rebase false
+log "Set git pull.rebase false done."
+
 
 if [ -z "$GIT_REPO_URL" ]; then
   log "GIT_REPO_URL is empty. Please set GIT_REPO_URL." "error"
