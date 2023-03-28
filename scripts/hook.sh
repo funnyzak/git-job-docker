@@ -38,15 +38,20 @@ run_command "$AFTER_BUILD_COMMANDS" "after build"
 hook_end_time=$(date +%s)
 hook_elapsed_time=$((hook_end_time-hook_start_time))
 human_readable_time=$(date -d@${hook_elapsed_time} -u +%H:%M:%S)
+commit_id=$(prase_git_commitid)
+short_commit_id=$(echo $commit_id | cut -c 1-20)
 
 cd ${CODE_DIR}
 
 # push success message
-log "**Git branch**: $(parse_git_branch)
-**Git commit id**: $(prase_git_commitid) 
-**Git commit message**: $(parse_git_message)
-**Git commit autho**r: $(parse_git_author)
-**Git commit date**: $(parse_git_date)
-**Total elapsed time**: $human_readable_time" "info" "true"
+log " ## Commit
+**$(parse_git_message)**
+* Branch: **$(parse_git_branch)**
+* Commit ID: **$short_commit_id**
+* Author: **$(parse_git_author)**
+* Date: **$(parse_git_date)**
+
+## Elapsed
+* Elapsed Time: $human_readable_time" "info" "true"
 
 log "Run hook script done."

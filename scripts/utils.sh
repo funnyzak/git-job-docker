@@ -21,7 +21,7 @@ log() {
   # log_level to upcase
   log_level_upcase=$(echo $log_level | tr '[a-z]' '[A-Z]')
   if [ -n "$PUSHOO_PUSH_PLATFORMS" -a -n "$PUSHOO_PUSH_TOKENS" ] && [ "$push_message" = "true" ]; then
-    pushoo -O '{"dingtalk":{"msgtype":"markdown"}}' -P "${PUSHOO_PUSH_PLATFORMS}" -K "${PUSHOO_PUSH_TOKENS}" -O "${PUSHOO_PUSH_OPTIONS}" -C "# Job Message
+    pushoo -P "${PUSHOO_PUSH_PLATFORMS}" -K "${PUSHOO_PUSH_TOKENS}" -O "${PUSHOO_PUSH_OPTIONS}" -C "# Git Job Message
 $1
 >From $SERVER_NAME (${log_level})" -T "$SERVER_NAME" > /dev/null 2>&1
     if [ $? -ne 0 ]; then
