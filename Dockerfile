@@ -1,6 +1,4 @@
-FROM funnyzak/java-nodejs-python-go-etc:1.5.1
-
-MAINTAINER Leon (silenceace@gmail.com)
+FROM funnyzak/java-nodejs-python-go-etc:1.5.2
 
 ARG BUILD_DATE
 ARG VCS_REF
