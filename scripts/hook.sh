@@ -29,7 +29,7 @@ run_command "$INSTALL_DEPS_COMMAND" "installing deps"
 run_command "$BUILD_COMMAND" "build"
 
 if [ -n ${BUILD_OUTPUT_DIR} ] && [ -n "$(ls -A $BUILD_OUTPUT_DIR)" ]; then
-  rsync -q -r --delete $BUILD_OUTPUT_DIR ${TARGET_DIR}
+  rsync -q -r $BUILD_OUTPUT_DIR ${TARGET_DIR}
   log "Copy output folder: $BUILD_OUTPUT_DIR to target folder: ${TARGET_DIR} done."
 fi
 
