@@ -1,4 +1,4 @@
-FROM funnyzak/java-nodejs-python-go-etc:1.5.2
+FROM funnyzak/java-nodejs-python-go-etc:1.5.6
 
 ARG BUILD_DATE
 ARG VCS_REF
