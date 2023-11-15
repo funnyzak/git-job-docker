@@ -64,4 +64,6 @@ EXPOSE 80 9000
 
 WORKDIR ${CODE_DIR}
 
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=5 CMD [ "/app/scripts/healthcheck.sh" ]
+
 ENTRYPOINT ["/bin/bash", "/app/scripts/entrypoint.sh"]
