@@ -59,6 +59,8 @@ If you want to receive message with pushoo, you need to set `PUSHOO_PUSH_PLATFOR
 - `SERVER_NAME` - The server name, used for pushoo message. Optional.
 - `PUSHOO_PUSH_PLATFORMS` - The push platforms, separated by commas. Optional.
 - `PUSHOO_PUSH_TOKENS` - The push tokens, separated by commas. Optional.
+- `PUSH_MESSAGE_HEAD` - The push message head. Optional. Default is empty.
+- `PUSH_MESSGE_FOOT` - The push message foot. Optional. Default is empty.
 
 For more details, please refer to [pushoo-cli](https://github.com/funnyzak/pushoo-cli).
 
@@ -122,7 +124,9 @@ services:
       - SERVER_NAME=demo server
       - PUSHOO_PUSH_PLATFORMS=dingtalk,bark
       - PUSHOO_PUSH_TOKENS=dingtalktoken:barktoken
-      - PUSHOO_PUSH_OPTIONS={"dingtalk":{"msgtype":"markdown"}}
+      - PUSHOO_PUSH_OPTIONS={"dingtalk":{"atMobiles":["13800000000"]},"bark":{"sound":"tink"}}
+      - PUSH_MESSAGE_HEAD=This is a message head
+      - PUSH_MESSAGE_FOOT=This is a message foot
       # custom environment for build
       - INSTALL_DEPS_COMMAND=echo install deps time:$$(date)
       - BUILD_COMMAND=mkdir target && zip -r ./target/release.zip ./*
@@ -142,6 +146,7 @@ services:
       - ./target:/app/target
       - ./ssh:/root/.ssh
       - ./scripts/after_pull/after_pull_build_app.sh:/custom_scripts/after_pull/3.sh
+
  ```
 
 #### Simple configuration

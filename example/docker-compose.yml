@@ -25,6 +25,8 @@ services:
       - PUSHOO_PUSH_PLATFORMS=dingtalk,bark
       - PUSHOO_PUSH_TOKENS=dingtalktoken:barktoken
       - PUSHOO_PUSH_OPTIONS={"dingtalk":{"atMobiles":["13800000000"]},"bark":{"sound":"tink"}}
+      - PUSH_MESSAGE_HEAD=This is a message head
+      - PUSH_MESSAGE_FOOT=This is a message foot
       # custom environment for build
       - INSTALL_DEPS_COMMAND=echo install deps time:$$(date)
       - BUILD_COMMAND=mkdir target && zip -r ./target/release.zip ./*

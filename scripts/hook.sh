@@ -43,7 +43,8 @@ human_readable_time=$(date -d@${hook_elapsed_time} -u +%H:%M:%S)
 short_commit_id=$(echo $(prase_git_commitid) | cut -c 1-20)
 
 # push success message
-log "## Commit
+log "$PUSH_MESSAGE_HEAD
+## Commit
 
 $(parse_git_message)
 
@@ -53,6 +54,8 @@ $(parse_git_message)
 * Date: **$(parse_git_date)**
 
 ## Elapsed
-* Elapsed Time: $human_readable_time" "info" "true"
+* Elapsed Time: $human_readable_time
+
+$PUSH_MESSAGE_FOOT" "info" "true"
 
 log "Run hook script done."
