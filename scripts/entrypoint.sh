@@ -57,6 +57,8 @@ if [ -z "$(ls -A ${CODE_DIR})" ]; then
   log "git clone from ${GIT_REPO_URL}, ${GIT_BRANCH} to ${CODE_DIR} done."
 else 
   log "${CODE_DIR} is not empty. please remove the ${CODE_DIR} first. Skip git clone."
+  log "set origin url to ${GIT_REPO_URL}"
+  git remote set-url origin ${GIT_REPO_URL}
 fi
 
 chmod +x -R /custom_scripts
