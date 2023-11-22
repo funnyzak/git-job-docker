@@ -62,6 +62,9 @@ RUN sed -i 's/^user [a-z0-9\-]\+/user root/' /etc/nginx/nginx.conf
 # http proxy 9000 80 
 COPY conf/nginx_default.conf /etc/nginx/conf.d/default.conf
 
+# Remove default nginx config
+RUN rm -rf /etc/nginx/sites-enabled/default && rm -rf /etc/nginx/sites-available/default
+
 # Expose webhook and nginx port
 EXPOSE 80 9000
 
