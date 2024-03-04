@@ -18,8 +18,12 @@ log() {
 
   echo -e "[gitjob] $(date '+%Y-%m-%d %H:%M:%S') [${log_level}] $1 "
 
+  # log_level to upcase
+  log_level_upcase=$(echo $log_level | tr '[a-z]' '[A-Z]')
   if [ -n "$PUSHOO_PUSH_PLATFORMS" -a -n "$PUSHOO_PUSH_TOKENS" ] && [ "$push_message" = "true" ]; then
-    pushoo -P "${PUSHOO_PUSH_PLATFORMS}" -K "${PUSHOO_PUSH_TOKENS}" -C "$SERVER_NAME Git Job, Message: $1" -T "$SERVER_NAME Git Job" > /dev/null 2>&1
+    pushoo -P "${PUSHOO_PUSH_PLATFORMS}" -K "${PUSHOO_PUSH_TOKENS}" -O "${PUSHOO_PUSH_OPTIONS}" -C "# Git Job Message
+$1
+>From $SERVER_NAME (${log_level})" -T "$SERVER_NAME" > /dev/null 2>&1
     if [ $? -ne 0 ]; then
       echo -e "$(date '+%Y-%m-%d %H:%M:%S') [error] push message failed."
     else 
@@ -39,6 +43,7 @@ run_command() {
   eval "$1" 1>/app/tmp/tmp_output_log 2>/app/tmp/tmp_error_log
   if [ $? -ne 0 ]; then
     log "Execute $1 command: $1 failed. Please check your command. Error log: $(cat /app/tmp/tmp_error_log)" "error" "true"
+    exit 1
   else
     log "Execute $2 command: $1 success. Output log: $(cat /app/tmp/tmp_output_log)"
   fi
@@ -64,7 +69,13 @@ run_folder_scripts() {
 }
 
 print_environment() {
-  log "Environment: \nGit name: ${GIT_USER_NAME}\nGit email: ${GIT_USER_EMAIL}\nGit Repo: ${GIT_REPO_URL}\nGit Branch: ${GIT_BRANCH}\nCode Dir: ${CODE_DIR}\nTarget Dir: ${TARGET_DIR}\nHook Dir: ${HOOK_DIR}\nHook log dir: ${HOOK_LOG_DIR}\nHook Token: ${HOOK_TOKEN}\nUse Hook: ${USE_HOOK}\nStartup Command: ${STARTUP_COMMAND}\nBefore Pull Command: ${BEFORE_PULL_COMMAND}\nAfter Pull Command: ${AFTER_PULL_COMMAND}\nServer name: ${SERVER_NAME}\nPushoo push platforms: ${PUSHOO_PUSH_PLATFORMS}\nPushoo push tokens: ${PUSHOO_PUSH_TOKENS}"
+  log "Environment: \nGit name: ${GIT_USER_NAME}\nGit email: ${GIT_USER_EMAIL}\nGit Repo: ${GIT_REPO_URL}\nGit Branch: ${GIT_BRANCH}\nCode Dir: ${CODE_DIR}\nTarget Dir: ${TARGET_DIR}\nHook Dir: ${HOOK_DIR}\nHook log dir: ${HOOK_LOG_DIR}\nHook Token: ${HOOK_TOKEN}\nUse Hook: ${USE_HOOK}\nStartup Command: ${STARTUP_COMMANDS}\nBefore Pull Command: ${BEFORE_PULL_COMMAND}\nAfter Pull Command: ${AFTER_PULL_COMMAND}\nServer name: ${SERVER_NAME}\nPushoo push platforms: ${PUSHOO_PUSH_PLATFORMS}\nPushoo push tokens: ${PUSHOO_PUSH_TOKENS}"
+}
+
+execute_error_and_exit() {
+  if [ $? -ne 0 ]; then
+    exit 1
+  fi
 }
 
 # checks if branch has something pending

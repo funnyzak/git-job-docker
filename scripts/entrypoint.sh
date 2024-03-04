@@ -26,6 +26,9 @@ if [ ! -z "$GIT_USER_EMAIL" ]; then
 fi
 log "Set git name: ${GIT_USER_NAME}, email: ${GIT_USER_EMAIL} done."
 
+git config pull.rebase false
+log "Set git pull.rebase false done."
+
 
 if [ -z "$GIT_REPO_URL" ]; then
   log "GIT_REPO_URL is empty. Please set GIT_REPO_URL." "error"
@@ -54,13 +57,15 @@ if [ -z "$(ls -A ${CODE_DIR})" ]; then
   log "git clone from ${GIT_REPO_URL}, ${GIT_BRANCH} to ${CODE_DIR} done."
 else 
   log "${CODE_DIR} is not empty. please remove the ${CODE_DIR} first. Skip git clone."
+  log "set origin url to ${GIT_REPO_URL}"
+  git remote set-url origin ${GIT_REPO_URL}
 fi
 
 chmod +x -R /custom_scripts
 chmod +x -R ${HOOK_DIR}
 log "Set /custom_scripts and ${HOOK_DIR} permission to 755 done."
 
-run_command "$STARTUP_COMMAND" "startup"
+run_command "$STARTUP_COMMANDS" "startup"
 run_folder_scripts "/custom_scripts/on_startup" "on startup"
 
 # Set hook rule

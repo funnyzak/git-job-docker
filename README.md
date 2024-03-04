@@ -1,12 +1,12 @@
 # Git Job Docker
 
 [![Build Status][build-status-image]][build-status]
-[![Docker Stars][docker-star-image]][repository-url]
-[![Docker Pulls][docker-pull-image]][repository-url]
+[![Docker Stars][docker-star-image]][docker-hub-url]
+[![Docker Pulls][docker-pull-image]][docker-hub-url]
 [![GitHub release (latest by date)][latest-release]][repository-url]
 [![GitHub][license-image]][repository-url]
 
-Trigger a source code pull with a push event from the git webhook. And then execute the commands.
+Trigger a source code pull with a push event from the git webhook. And then execute the commands. Base Image: [funnyzak/java-nodejs-python-go-etc-docker](https://github.com/funnyzak/java-nodejs-python-go-etc-docker).
 
 Download size of this image is:
 
@@ -59,6 +59,8 @@ If you want to receive message with pushoo, you need to set `PUSHOO_PUSH_PLATFOR
 - `SERVER_NAME` - The server name, used for pushoo message. Optional.
 - `PUSHOO_PUSH_PLATFORMS` - The push platforms, separated by commas. Optional.
 - `PUSHOO_PUSH_TOKENS` - The push tokens, separated by commas. Optional.
+- `PUSH_MESSAGE_HEAD` - The push message head. Optional. Default is empty.
+- `PUSH_MESSGE_FOOT` - The push message foot. Optional. Default is empty.
 
 For more details, please refer to [pushoo-cli](https://github.com/funnyzak/pushoo-cli).
 
@@ -121,11 +123,17 @@ services:
       # pushoo 
       - SERVER_NAME=demo server
       - PUSHOO_PUSH_PLATFORMS=dingtalk,bark
-      - PUSHOO_PUSH_TOKENS=dingtalk:xxxx,bark:xxxx
+      - PUSHOO_PUSH_TOKENS=dingtalktoken:barktoken
+      - PUSHOO_PUSH_OPTIONS={"dingtalk":{"atMobiles":["13800000000"]},"bark":{"sound":"tink"}}
+      - PUSH_MESSAGE_HEAD=This is a message head
+      - PUSH_MESSAGE_FOOT=## Other
+
+          * Click Here：[Home Page](https://www.domain.com/)
       # custom environment for build
       - INSTALL_DEPS_COMMAND=echo install deps time:$$(date)
       - BUILD_COMMAND=mkdir target && zip -r ./target/release.zip ./*
       - BUILD_OUTPUT_DIR=./dist
+      - AFTER_BUILD_COMMANDS=echo after build time:$$(date)
       # custom environment for aliyun oss
       - ALIYUN_OSS_ENDPOINT=oss-cn-beijing-internal.aliyuncs.com
       - ALIYUN_OSS_AK_ID=123456789
@@ -140,6 +148,7 @@ services:
       - ./target:/app/target
       - ./ssh:/root/.ssh
       - ./scripts/after_pull/after_pull_build_app.sh:/custom_scripts/after_pull/3.sh
+
  ```
 
 #### Simple configuration
