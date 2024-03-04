@@ -1,20 +1,8 @@
-FROM funnyzak/java-nodejs-python-go-etc:1.5.0
-
-MAINTAINER Leon (silenceace@gmail.com)
+FROM funnyzak/java-nodejs-python-go-etc:1.6.0
 
 ARG BUILD_DATE
 ARG VCS_REF
 ARG VERSION
-
-LABEL org.label-schema.vendor="Leon<silenceace@gmail.com>" \
-    org.label-schema.name="GitJob" \
-    org.label-schema.build-date="${BUILD_DATE}" \
-    org.label-schema.description="Pull your project git code into a data volume and trigger run event via Webhook." \
-    org.label-schema.url="https://yycc.me" \
-    org.label-schema.schema-version="${VERSION}"	\
-    org.label-schema.vcs-type="Git" \
-    org.label-schema.vcs-ref="${VCS_REF}" \
-    org.label-schema.vcs-url="https://github.com/funnyzak/git-job-docker" 
 
 # Set the timezone and locale
 ENV TZ Asia/Shanghai
@@ -42,7 +30,7 @@ ENV CODE_DIR /app/code
 ENV HOOK_DIR /app/hook
 ENV HOOK_LOG_DIR /var/log/webhook
 
-# Create operation folders
+# Create operation folders`
 RUN mkdir -p ${CODE_DIR} && mkdir -p ${TARGET_DIR} && mkdir -p ${HOOK_DIR} && mkdir -p ${HOOK_LOG_DIR} && mkdir -p /app/tmp
 
 # Copy hook rule and hook script
