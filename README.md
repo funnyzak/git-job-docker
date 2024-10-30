@@ -16,6 +16,8 @@ Download size of this image is:
 
 **Docker Pull Command**: `docker pull funnyzak/git-job:latest`
 
+China mirror: `docker pull registry.cn-beijing.aliyuncs.com/funnyzak/git-job:latest`
+
 The nginx service is enabled by default, and the proxy ports are 80 and 9000, default webhook event is `push`. And the webhook url path is `/hooks/git-webhook`, url parameter is `token`. For example:
 
 - `http://hostname:80/hooks/git-webhook?token=HOOK_TOKEN`
