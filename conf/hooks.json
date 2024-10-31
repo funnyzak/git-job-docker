@@ -5,6 +5,16 @@
     "command-working-directory": "/app/code",
     "pass-environment-to-command": [
       {
+          "envname": "EVENT_NAME",
+          "source": "payload",
+          "name": "eventName"
+      },
+      {
+          "envname": "SERVER_HOSTNAME",
+          "source": "payload",
+          "name": "data.SCALR_SERVER_HOSTNAME"
+      },
+      {
         "source": "payload",
         "name": "head_commit.id",
         "envname": "GIT_COMMIT_ID"
