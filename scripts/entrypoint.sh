@@ -86,7 +86,7 @@ print_environment
 
 if [ "$USE_HOOK" = "true" ]; then
   log "Set USE_HOOK. will run webhook."
-  /go/bin/webhook -hooks ${HOOK_DIR}/githooks.json -verbose
+  webhook -hooks ${HOOK_DIR}/githooks.json -verbose
 else
   log "Not set USE_HOOK. will run hook.sh in 23h."
   while sleep 23h; do sh ${HOOK_DIR}/hook.sh; done
